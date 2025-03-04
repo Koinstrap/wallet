@@ -182,7 +182,16 @@ trait CanExchange
             // Prepare the deposit operation.
             $depositDto = $prepareService->deposit(
                 $to,
-                $mathService->floor($mathService->mul($amount, $rate, 1)),
+                $mathService->floor(
+                    $mathService->mul(
+                        $mathService->mul(
+                            $amount,
+                            $rate,
+                        ),
+                        $mathService->powTen($to->decimal_places),
+                        $to->decimal_places
+                    )
+                ),
                 $depositOption->getMeta(),
                 $depositOption->isConfirmed(),
                 $depositOption->getUuid(),
