@@ -185,7 +185,10 @@ trait CanExchange
                 $mathService->floor(
                     $mathService->mul(
                         $mathService->mul(
-                            $amount,
+                            $mathService->div(
+                                $amount,
+                                $mathService->powTen($this->decimal_places)
+                            ),
                             $rate,
                         ),
                         $mathService->powTen($to->decimal_places),
