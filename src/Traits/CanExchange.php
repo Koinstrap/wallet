@@ -127,7 +127,9 @@ trait CanExchange
         $taxService = app(TaxServiceInterface::class);
 
         // Get the exchange service to convert the currency.
-        $exchangeService = app(ExchangeServiceInterface::class);
+        $exchangeService = app(ExchangeServiceInterface::class, [
+            'type' => $this->decimal_places <= 2 ? 'f2c' : ($this->decimal_places > 3 ? 'c2f' : 'c2c'),
+        ]);
 
         // Get the transfer lazy DTO assembler to assemble the transfer lazy DTO.
         $transferLazyDtoAssembler = app(TransferLazyDtoAssemblerInterface::class);
@@ -164,7 +166,7 @@ trait CanExchange
                 1
             );
 
-            // Get the withdraw option from the extra data.
+            // Get the withdraw option from the extra data. 
             $withdrawOption = $extraDto->getWithdrawOption();
 
             // Prepare the withdraw operation.
